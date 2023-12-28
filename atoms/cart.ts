@@ -1,7 +1,3 @@
-import { atom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 
-const initialValue = JSON.parse(
-  localStorage.getItem("cart") || "[]"
-) as CartItem[];
-
-export const cartAtom = atom<CartItem[]>(initialValue);
+export const cartAtom = atomWithStorage<CartItem[]>("cart", []);

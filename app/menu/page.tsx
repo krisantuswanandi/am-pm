@@ -36,12 +36,7 @@ function ViewCart() {
 }
 
 export default function MenuPage() {
-  const [cart] = useAtom(cartAtom);
   const [menu] = useAtom(menuAtom);
-
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cart));
-  }, [cart]);
 
   const categories = ["makanan", "minuman", "tambahan"];
 
