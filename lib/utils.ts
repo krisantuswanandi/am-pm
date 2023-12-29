@@ -12,3 +12,25 @@ export function formatCurrency(value: number) {
     minimumFractionDigits: 0,
   }).format(value);
 }
+
+export function sendWhatsapp(data: {
+  name: string;
+  address: string;
+  items: CartItem[];
+}) {
+  const number = process.env.NEXT_PUBLIC_PHONE_NUMBER;
+  const message = `*Nama:* ${data.name}
+*Alamat:*${
+    data.address.includes("\n") ? `\n${data.address}` : ` ${data.address}`
+  }
+
+*Pesanan:*
+${data.items
+  .map(
+    (item) =>
+      `*${item.qty}* ${item.menu.name}${item.notes ? ` (${item.notes})` : ""}`
+  )
+  .join("\n")}`;
+
+  window.open(`https://wa.me/${number}?text=${encodeURI(message)}`, "_blank");
+}
