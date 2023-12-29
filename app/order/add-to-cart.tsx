@@ -31,6 +31,7 @@ export function AddToCart(props: { item: MenuItem }) {
           id: cart.length + 1,
           menu: props.item,
           qty,
+          notes,
         },
       ];
     });

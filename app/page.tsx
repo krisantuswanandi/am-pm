@@ -15,7 +15,7 @@ export default function Home() {
         />
         <h1 className="text-[#EDA94C] text-2xl">am.pm</h1>
         <Button asChild className="mt-4">
-          <Link href="/menu">Lihat menu</Link>
+          <Link href="/order">Pesan antar</Link>
         </Button>
       </div>
     </main>

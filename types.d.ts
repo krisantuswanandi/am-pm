@@ -11,4 +11,5 @@ interface CartItem {
   id: number;
   menu: MenuItem;
   qty: number;
+  notes: string;
 }
