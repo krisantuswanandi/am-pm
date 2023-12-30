@@ -5,7 +5,7 @@ import { AddToCart } from "./add-to-cart";
 export function MenuCategory(props: { title: string; menu: MenuItem[] }) {
   return (
     <div>
-      <h2 className="capitalize text-3xl font-semibold mb-6">{props.title}</h2>
+      <h2 className="mb-6 text-3xl font-semibold capitalize">{props.title}</h2>
       <MenuList menu={props.menu} />
     </div>
   );
@@ -13,7 +13,7 @@ export function MenuCategory(props: { title: string; menu: MenuItem[] }) {
 
 export function MenuList(props: { menu: MenuItem[] }) {
   return (
-    <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       {props.menu.map((item) => (
         <MenuItem key={item.id} item={item} />
       ))}
@@ -23,7 +23,7 @@ export function MenuList(props: { menu: MenuItem[] }) {
 
 export function MenuItem(props: { item: MenuItem }) {
   return (
-    <li className="bg-white rounded-md p-4 flex items-start gap-4 shadow">
+    <li className="flex items-start gap-4 rounded-md bg-white p-4 shadow">
       <Image
         src={props.item.image}
         width={120}
@@ -31,12 +31,12 @@ export function MenuItem(props: { item: MenuItem }) {
         alt={props.item.name}
         className="rounded"
       />
-      <div className="flex flex-col flex-1 h-full">
+      <div className="flex h-full flex-1 flex-col">
         <div className="mb-2">
-          <div className="text-lg mb-1">{props.item.name}</div>
+          <div className="mb-1 text-lg">{props.item.name}</div>
           <div className="text-sm text-stone-400">{props.item.description}</div>
         </div>
-        <div className="flex justify-between items-end mt-auto">
+        <div className="mt-auto flex items-end justify-between">
           <div className="text-lg">{formatCurrency(props.item.price)}</div>
           <AddToCart item={props.item} />
         </div>

@@ -29,9 +29,9 @@ export default function CartPage() {
   }
 
   return (
-    <div className="flex justify-center m-auto px-5 sm:py-12 py-4">
-      <div className="w-full sm:max-w-md bg-white shadow rounded-md">
-        <div className="border-b border-stone-200 px-4 sm:px-8 pt-8 pb-12">
+    <div className="m-auto flex justify-center px-5 py-4 sm:py-12">
+      <div className="w-full rounded-md bg-white shadow sm:max-w-md">
+        <div className="border-b border-stone-200 px-4 pb-12 pt-8 sm:px-8">
           <div className="text-xl font-semibold">Tujuan</div>
           <div className="mt-4">
             <div className="font-semibold">Nama</div>
@@ -70,18 +70,18 @@ export default function CartPage() {
             </Button>
           </div>
         </div>
-        <div className="px-4 sm:px-8 py-8">
+        <div className="px-4 py-8 sm:px-8">
           <div className="flex justify-between">
             <div className="text-xl font-semibold">Rincian</div>
             <Button variant="link" className="p-0 text-amber-500">
               <Link href="/order">Ubah Pesanan</Link>
             </Button>
           </div>
-          <div className="flex flex-col gap-4 mt-2">
+          <div className="mt-2 flex flex-col gap-4">
             {cart.map((i) => {
               return (
-                <div key={i.id} className="flex justify-between text-md gap-2">
-                  <div className="flex gap-2 items-start">
+                <div key={i.id} className="text-md flex justify-between gap-2">
+                  <div className="flex items-start gap-2">
                     <Image
                       src={i.menu.image}
                       alt={i.menu.name}
@@ -93,7 +93,7 @@ export default function CartPage() {
                       <div>
                         {i.qty} {i.menu.name}
                       </div>
-                      <div className="text-stone-400 text-sm">{i.notes}</div>
+                      <div className="text-sm text-stone-400">{i.notes}</div>
                     </div>
                   </div>
                   <div className="font-semibold">

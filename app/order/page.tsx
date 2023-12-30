@@ -24,7 +24,7 @@ function ViewCart() {
   });
 
   return (
-    <div className="flex items-center justify-end fixed bottom-0 right-0 left-0 p-4 border border-t-stone-200 bg-white">
+    <div className="fixed bottom-0 left-0 right-0 flex items-center justify-end border border-t-stone-200 bg-white p-4">
       <div className="mr-4">
         Total: {formatCurrency(totalPrice)} ({totalItem} item)
       </div>
@@ -50,7 +50,7 @@ export default function MenuPage() {
           height={140}
           priority={true}
         />
-        <h1 className="text-[#EDA94C] text-2xl">am.pm</h1>
+        <h1 className="text-2xl text-[#EDA94C]">am.pm</h1>
       </div>
       <div className="flex flex-col gap-16">
         {categories.map((category) => (

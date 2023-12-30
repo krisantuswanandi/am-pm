@@ -68,9 +68,9 @@ export function AddToCart(props: { item: MenuItem }) {
               </div>
             </div>
             <div className="mt-8">
-              <div className="font-semibold mb-2">Catatan</div>
+              <div className="mb-2 font-semibold">Catatan</div>
               <Textarea
-                className="h-32 resize-none placeholder:text-stone-300 placeholder:italic"
+                className="h-32 resize-none placeholder:italic placeholder:text-stone-300"
                 placeholder="Contoh: tidak pedas, tanpa acar, dll."
                 value={notes}
                 onChange={(e) => {
@@ -78,7 +78,7 @@ export function AddToCart(props: { item: MenuItem }) {
                 }}
               />
             </div>
-            <div className="flex items-center justify-center gap-4 pt-14 pb-6">
+            <div className="flex items-center justify-center gap-4 pb-6 pt-14">
               <Button
                 variant="outline"
                 size="icon"
