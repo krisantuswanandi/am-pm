@@ -29,9 +29,9 @@ export default function CartPage() {
   }
 
   return (
-    <div className="flex justify-center m-auto p-12">
-      <div className="w-full max-w-lg bg-white shadow rounded-md">
-        <div className="border-b border-stone-200 p-8 pb-12">
+    <div className="flex justify-center m-auto px-5 sm:py-12 py-4">
+      <div className="w-full sm:max-w-md bg-white shadow rounded-md">
+        <div className="border-b border-stone-200 px-4 sm:px-8 pt-8 pb-12">
           <div className="text-xl font-semibold">Tujuan</div>
           <div className="mt-4">
             <div className="font-semibold">Nama</div>
@@ -70,7 +70,7 @@ export default function CartPage() {
             </Button>
           </div>
         </div>
-        <div className="p-8">
+        <div className="px-4 sm:px-8 py-8">
           <div className="flex justify-between">
             <div className="text-xl font-semibold">Rincian</div>
             <Button variant="link" className="p-0 text-amber-500">
