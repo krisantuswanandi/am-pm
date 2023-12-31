@@ -9,14 +9,14 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
+import { ConfirmationModal } from "./confirmation";
+import { ThankYouModal } from "./thank-you";
 
-export default function CartPage() {
+function OrderForm(props: { cart: CartItem[]; onComplete: () => void }) {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
 
-  const [cart] = useAtom(cartAtom);
-
-  const total = cart.reduce((acc, i) => {
+  const total = props.cart.reduce((acc, i) => {
     return acc + i.menu.price * i.qty;
   }, 0);
 
@@ -24,8 +24,9 @@ export default function CartPage() {
     sendWhatsapp({
       name,
       address,
-      items: cart,
+      items: props.cart,
     });
+    props.onComplete();
   }
 
   return (
@@ -61,13 +62,10 @@ export default function CartPage() {
             <div className="text-lg font-semibold">{formatCurrency(total)}</div>
           </div>
           <div className="mt-2 flex flex-col-reverse gap-2">
-            <Button
-              className="flex-1"
-              onClick={submitHandler}
+            <ConfirmationModal
               disabled={!name || !address}
-            >
-              Pesan
-            </Button>
+              onContinue={submitHandler}
+            />
           </div>
         </div>
         <div className="px-4 py-8 sm:px-8">
@@ -78,7 +76,7 @@ export default function CartPage() {
             </Button>
           </div>
           <div className="mt-2 flex flex-col gap-4">
-            {cart.map((i) => {
+            {props.cart.map((i) => {
               return (
                 <div key={i.id} className="text-md flex justify-between gap-2">
                   <div className="flex items-start gap-2">
@@ -106,5 +104,43 @@ export default function CartPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+function EmptyCart() {
+  return (
+    <div className="flex h-dvh items-center justify-center">
+      <div className="flex flex-col items-center">
+        <div className="text-4xl font-semibold text-stone-300">
+          Belum ada pesanan
+        </div>
+        <div className="mt-10">
+          <Button asChild>
+            <Link href="/order">Pesan Sekarang</Link>
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function CartPage() {
+  const [completed, setCompleted] = useState(false);
+  const [cart, setCart] = useAtom(cartAtom);
+
+  function onComplete() {
+    setCompleted(true);
+    setCart([]);
+  }
+
+  return (
+    <>
+      <ThankYouModal open={completed} />
+      {cart.length ? (
+        <OrderForm cart={cart} onComplete={onComplete} />
+      ) : (
+        <EmptyCart />
+      )}
+    </>
   );
 }
