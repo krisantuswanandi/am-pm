@@ -80,13 +80,17 @@ function OrderForm(props: { cart: CartItem[]; onComplete: () => void }) {
               return (
                 <div key={i.id} className="text-md flex justify-between gap-2">
                   <div className="flex items-start gap-2">
-                    <Image
-                      src={i.menu.image}
-                      alt={i.menu.name}
-                      width={60}
-                      height={60}
-                      className="rounded"
-                    />
+                    {i.menu.image ? (
+                      <Image
+                        src={i.menu.image}
+                        alt={i.menu.name}
+                        width={60}
+                        height={60}
+                        className="rounded"
+                      />
+                    ) : (
+                      <div className="h-[60px] w-[60px] rounded bg-stone-200"></div>
+                    )}
                     <div>
                       <div>
                         {i.qty} {i.menu.name}

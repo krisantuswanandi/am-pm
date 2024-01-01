@@ -49,13 +49,17 @@ export function AddToCart(props: { item: MenuItem }) {
         <div className="mx-auto w-full max-w-md">
           <div className="p-4">
             <div className="flex gap-4">
-              <Image
-                src={props.item.image}
-                width={120}
-                height={120}
-                alt={props.item.name}
-                className="rounded"
-              />
+              {props.item.image ? (
+                <Image
+                  src={props.item.image}
+                  width={120}
+                  height={120}
+                  alt={props.item.name}
+                  className="rounded"
+                />
+              ) : (
+                <div className="h-[120px] w-[120px] rounded bg-stone-200"></div>
+              )}
               <div className="flex flex-col gap-2">
                 <div className="text-lg">{props.item.name}</div>
                 <div className="text-sm text-stone-400">

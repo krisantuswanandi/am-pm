@@ -24,13 +24,17 @@ export function MenuList(props: { menu: MenuItem[] }) {
 export function MenuItem(props: { item: MenuItem }) {
   return (
     <li className="flex items-start gap-4 rounded-md bg-white p-4 shadow">
-      <Image
-        src={props.item.image}
-        width={120}
-        height={120}
-        alt={props.item.name}
-        className="rounded"
-      />
+      {props.item.image ? (
+        <Image
+          src={props.item.image}
+          width={120}
+          height={120}
+          alt={props.item.name}
+          className="rounded"
+        />
+      ) : (
+        <div className="h-[120px] w-[120px] rounded bg-stone-200"></div>
+      )}
       <div className="flex h-full flex-1 flex-col">
         <div className="mb-2">
           <div className="mb-1 text-lg">{props.item.name}</div>
