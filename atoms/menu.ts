@@ -1,4 +1,5 @@
 import { atom } from "jotai";
+import type { MenuItem } from "@/types";
 
 const initialValue = [
   {
