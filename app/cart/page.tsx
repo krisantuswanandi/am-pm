@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
 import { ConfirmationModal } from "./confirmation";
 import { ThankYouModal } from "./thank-you";
@@ -15,6 +16,7 @@ import { ThankYouModal } from "./thank-you";
 function OrderForm(props: { cart: CartItem[]; onComplete: () => void }) {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
+  const [dineIn, setDineIn] = useState(false);
 
   const total = props.cart.reduce((acc, i) => {
     return acc + i.menu.price * i.qty;
@@ -46,14 +48,32 @@ function OrderForm(props: { cart: CartItem[]; onComplete: () => void }) {
             </div>
           </div>
           <div className="mt-4">
-            <div className="font-semibold">Alamat</div>
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="dine-in"
+                checked={dineIn}
+                onCheckedChange={() => {
+                  const val = !dineIn;
+                  setDineIn(val);
+                  setAddress(val ? "Makan di tempat" : "");
+                }}
+                className="border-stone-300 data-[state=checked]:border-amber-500"
+              />
+              <label htmlFor="dine-in">Makan di tempat</label>
+            </div>
+          </div>
+          <div className="mt-4">
+            <div className={`font-semibold ${dineIn ? "opacity-30" : ""}`}>
+              Alamat
+            </div>
             <div className="mt-1">
               <Textarea
-                className="h-20"
+                className={`h-20 ${dineIn ? "italic text-stone-400" : ""}`}
                 value={address}
                 onChange={(e) => {
                   setAddress(e.target.value);
                 }}
+                disabled={dineIn}
               />
             </div>
           </div>

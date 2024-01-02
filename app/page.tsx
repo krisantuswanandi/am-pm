@@ -19,7 +19,7 @@ export default function Home() {
         />
         <h1 className="text-2xl text-[#EDA94C]">am.pm</h1>
         <Button asChild className="mt-4">
-          <Link href="/order">Pesan antar</Link>
+          <Link href="/order">Pesan online</Link>
         </Button>
         <div className="mt-4 flex justify-center gap-4 py-2 text-stone-400">
           <a
