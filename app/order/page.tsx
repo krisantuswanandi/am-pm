@@ -13,14 +13,14 @@ import { MenuCategory } from "./menu";
 function ViewCart() {
   const [cart] = useAtom(cartAtom);
 
-  if (!cart.length) return null;
+  if (!cart.items) return null;
 
   let totalItem = 0;
   let totalPrice = 0;
 
-  cart.forEach((i) => {
-    totalItem += i.qty;
-    totalPrice += i.qty * i.menu.price;
+  Object.values(cart.items).forEach((item) => {
+    totalItem += item.qty;
+    totalPrice += item.qty * item.menu.price;
   });
 
   return (

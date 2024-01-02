@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useAtom } from "jotai";
 import { FaPlus, FaMinus } from "react-icons/fa6";
@@ -13,35 +13,62 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { cartAtom } from "@/atoms/cart";
 import { formatCurrency } from "@/lib/utils";
+import type { MenuItem } from "@/types";
 
 export function AddToCart(props: { item: MenuItem }) {
   const [qty, setQty] = useState(1);
   const [notes, setNotes] = useState("");
+  const [dadidu, setDadidu] = useState(0);
 
-  const [_, setCart] = useAtom(cartAtom);
+  const [cart, setCart] = useAtom(cartAtom);
+  useEffect(() => {
+    const currentItem = cart.items?.[props.item.id];
+    if (currentItem) {
+      setQty(currentItem.qty);
+      setNotes(currentItem.notes);
+      setDadidu(currentItem.qty);
+    }
+  }, [cart, props.item.id]);
 
   function clickHandler() {
-    setQty(1);
-    setNotes("");
+    if (qty <= 0) {
+      setQty(1);
+      setNotes("");
+      setDadidu(0);
 
-    setCart((cart) => {
-      return [
-        ...cart,
-        {
-          id: cart.length + 1,
-          menu: props.item,
-          qty,
-          notes,
+      setCart((state) => {
+        if (!state.items) {
+          return state;
+        }
+
+        const { [props.item.id]: _, ...rest } = state.items;
+        return { ...state, items: rest };
+      });
+    } else {
+      setCart((state) => ({
+        ...state,
+        items: {
+          ...state.items,
+          [props.item.id]: {
+            id: props.item.id,
+            menu: props.item,
+            qty,
+            notes,
+          },
         },
-      ];
-    });
+      }));
+    }
   }
 
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button className="rounded-full" size="icon">
-          <FaPlus className="h-4 w-4" />
+        <Button
+          className="rounded-full border-2 border-amber-500 text-lg"
+          variant={dadidu ? "outline" : "default"}
+          size="icon"
+        >
+          {dadidu ? dadidu : <FaPlus className="h-4 w-4" />}
           <span className="sr-only">Pesan</span>
         </Button>
       </DrawerTrigger>

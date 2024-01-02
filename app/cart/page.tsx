@@ -1,6 +1,7 @@
 "use client";
 
 import { useAtom } from "jotai";
+import { RESET } from "jotai/utils";
 import { Button } from "@/components/ui/button";
 import { cartAtom } from "@/atoms/cart";
 import { formatCurrency, sendWhatsapp } from "@/lib/utils";
@@ -12,13 +13,14 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
 import { ConfirmationModal } from "./confirmation";
 import { ThankYouModal } from "./thank-you";
+import type { CartItem } from "@/types";
 
-function OrderForm(props: { cart: CartItem[]; onComplete: () => void }) {
+function OrderForm(props: { items: CartItem[]; onComplete: () => void }) {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [dineIn, setDineIn] = useState(false);
 
-  const total = props.cart.reduce((acc, i) => {
+  const total = props.items.reduce((acc, i) => {
     return acc + i.menu.price * i.qty;
   }, 0);
 
@@ -26,7 +28,7 @@ function OrderForm(props: { cart: CartItem[]; onComplete: () => void }) {
     sendWhatsapp({
       name,
       address,
-      items: props.cart,
+      items: props.items,
     });
     props.onComplete();
   }
@@ -96,7 +98,7 @@ function OrderForm(props: { cart: CartItem[]; onComplete: () => void }) {
             </Button>
           </div>
           <div className="mt-2 flex flex-col gap-4">
-            {props.cart.map((i) => {
+            {props.items.map((i) => {
               return (
                 <div key={i.id} className="text-md flex justify-between gap-2">
                   <div className="flex items-start gap-2">
@@ -154,14 +156,16 @@ export default function CartPage() {
 
   function onComplete() {
     setCompleted(true);
-    setCart([]);
+    setCart(RESET);
   }
+
+  const items = cart.items ? Object.values(cart.items) : [];
 
   return (
     <>
       <ThankYouModal open={completed} />
-      {cart.length ? (
-        <OrderForm cart={cart} onComplete={onComplete} />
+      {items.length ? (
+        <OrderForm items={items} onComplete={onComplete} />
       ) : (
         <EmptyCart />
       )}

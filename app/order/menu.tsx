@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { formatCurrency } from "@/lib/utils";
 import { AddToCart } from "./add-to-cart";
+import type { MenuItem } from "@/types";
 
 export function MenuCategory(props: { title: string; menu: MenuItem[] }) {
   return (
