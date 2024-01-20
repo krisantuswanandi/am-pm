@@ -19,3 +19,11 @@ export const cartItemSchema = z.object({
 });
 
 export type CartItem = z.infer<typeof cartItemSchema>;
+
+export const orderPayloadSchema = z.object({
+  name: z.string(),
+  address: z.string(),
+  items: z.array(cartItemSchema),
+});
+
+export type OrderPayload = z.infer<typeof orderPayloadSchema>;
