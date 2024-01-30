@@ -8,6 +8,13 @@
       "when": 1705737367669,
       "tag": "0000_aberrant_starbolt",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1706632611316,
+      "tag": "0001_shallow_cloak",
+      "breakpoints": true
     }
   ]
 }
