@@ -1,7 +1,7 @@
-import { db, models } from "@/database";
+import { getCategories } from "@/database";
 
 export default async function AdminCategoriesPage() {
-  const rows = await db.select().from(models.categories);
+  const rows = await getCategories();
 
   return (
     <table className="w-full">

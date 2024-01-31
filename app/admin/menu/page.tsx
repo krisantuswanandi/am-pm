@@ -1,15 +1,11 @@
 import Image from "next/image";
-import { eq } from "drizzle-orm";
-import { db, models } from "@/database";
+import { getCategories, getMenu } from "@/database";
 
 export default async function AdminMenuPage() {
-  const rows = await db
-    .select()
-    .from(models.menu)
-    .innerJoin(
-      models.categories,
-      eq(models.menu.categoryId, models.categories.id),
-    );
+  const [menu, categoriesArr] = await Promise.all([getMenu(), getCategories()]);
+  const categories = new Map(
+    categoriesArr.map((category) => [category.id, category.name]),
+  );
 
   return (
     <table className="w-full">
@@ -25,25 +21,25 @@ export default async function AdminMenuPage() {
         </tr>
       </thead>
       <tbody>
-        {rows.map((row) => (
-          <tr key={row.menu.id} className="hover:bg-neutral-200">
-            <td>{row.menu.id}</td>
+        {menu.map((item) => (
+          <tr key={item.id} className="hover:bg-neutral-200">
+            <td>{item.id}</td>
             <td>
-              {row.menu.image ? (
+              {item.image ? (
                 <Image
-                  src={row.menu.image || ""}
+                  src={item.image || ""}
                   width={64}
                   height={64}
-                  alt={row.menu.name || ""}
+                  alt={item.name || ""}
                 />
               ) : (
                 <div className="h-16 w-16 bg-neutral-300" />
               )}
             </td>
-            <td>{row.menu.name}</td>
-            <td>{row.menu.price}</td>
-            <td>{row.categories.name}</td>
-            <td>{row.menu.description}</td>
+            <td>{item.name}</td>
+            <td>{item.price}</td>
+            <td>{categories.get(item.categoryId)}</td>
+            <td>{item.description}</td>
             <td>
               <button className="text-blue-500 underline underline-offset-4">
                 ubah

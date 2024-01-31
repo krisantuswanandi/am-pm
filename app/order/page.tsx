@@ -3,14 +3,13 @@ import Link from "next/link";
 import { FaInstagram, FaWhatsapp } from "react-icons/fa6";
 import { MenuCategory } from "./menu";
 import { ViewCart } from "./view-cart";
-import { db, models } from "@/database";
+import { getCategories, getMenu } from "@/database";
 
 const instagram = process.env.NEXT_PUBLIC_INSTAGRAM;
 const whatsapp = process.env.NEXT_PUBLIC_PHONE_NUMBER;
 
 export default async function MenuPage() {
-  const menu = await db.select().from(models.menu);
-  const categories = await db.select().from(models.categories);
+  const [menu, categories] = await Promise.all([getMenu(), getCategories()]);
 
   return (
     <main className="container p-4">
