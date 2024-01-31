@@ -3,10 +3,10 @@ import { z } from "zod";
 export const menuItemSchema = z.object({
   id: z.number(),
   name: z.string(),
-  description: z.string(),
+  description: z.string().nullable(),
   price: z.number(),
-  image: z.string(),
-  category: z.enum(["makanan", "minuman", "tambahan"]),
+  image: z.string().nullable(),
+  categoryId: z.number(),
 });
 
 export type MenuItem = z.infer<typeof menuItemSchema>;

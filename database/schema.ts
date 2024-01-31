@@ -3,34 +3,38 @@ import type { InferSelectModel, InferInsertModel } from "drizzle-orm";
 
 export const orders = sqliteTable("orders", {
   id: integer("id").primaryKey(),
-  name: text("name"),
-  address: text("address"),
-  transactionDate: text("transaction_date"),
+  name: text("name").notNull(),
+  address: text("address").notNull(),
+  transactionDate: text("transaction_date").notNull(),
 });
 
 export const orderLines = sqliteTable("order_lines", {
   id: integer("id").primaryKey(),
-  name: text("name"),
-  quantity: integer("quantity"),
-  price: integer("price"),
+  name: text("name").notNull(),
+  quantity: integer("quantity").notNull(),
+  price: integer("price").notNull(),
   notes: text("notes"),
-  orderId: integer("order_id").references(() => orders.id),
+  orderId: integer("order_id")
+    .references(() => orders.id)
+    .notNull(),
 });
 
 export const categories = sqliteTable("categories", {
   id: integer("id").primaryKey(),
-  name: text("name"),
-  order: integer("order"),
+  name: text("name").notNull(),
+  order: integer("order").notNull(),
 });
 
 export const menu = sqliteTable("menu", {
   id: integer("id").primaryKey(),
-  name: text("name"),
+  name: text("name").notNull(),
   description: text("description"),
-  price: integer("price"),
+  price: integer("price").notNull(),
   image: text("image"),
-  order: integer("order"),
-  categoryId: integer("category_id").references(() => categories.id),
+  order: integer("order").notNull(),
+  categoryId: integer("category_id")
+    .references(() => categories.id)
+    .notNull(),
 });
 
 export type Order = InferSelectModel<typeof orders>;
