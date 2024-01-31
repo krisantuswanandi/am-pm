@@ -1,47 +1,16 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useAtom } from "jotai";
 import { FaInstagram, FaWhatsapp } from "react-icons/fa6";
-import { Button } from "@/components/ui/button";
-import { cartAtom } from "@/atoms/cart";
-import { menuAtom } from "@/atoms/menu";
-import { formatCurrency } from "@/lib/utils";
 import { MenuCategory } from "./menu";
-
-function ViewCart() {
-  const [cart] = useAtom(cartAtom);
-
-  if (!cart.items) return null;
-
-  let totalItem = 0;
-  let totalPrice = 0;
-
-  Object.values(cart.items).forEach((item) => {
-    totalItem += item.qty;
-    totalPrice += item.qty * item.menu.price;
-  });
-
-  return (
-    <div className="fixed bottom-0 left-0 right-0 flex items-center justify-end border border-t-stone-200 bg-white p-4">
-      <div className="mr-4">
-        Total: {formatCurrency(totalPrice)} ({totalItem} item)
-      </div>
-      <Button asChild>
-        <Link href="/cart">Lanjutkan</Link>
-      </Button>
-    </div>
-  );
-}
+import { ViewCart } from "./view-cart";
+import { db, models } from "@/database";
 
 const instagram = process.env.NEXT_PUBLIC_INSTAGRAM;
 const whatsapp = process.env.NEXT_PUBLIC_PHONE_NUMBER;
 
-export default function MenuPage() {
-  const [menu] = useAtom(menuAtom);
-
-  const categories = ["makanan", "minuman", "tambahan"];
+export default async function MenuPage() {
+  const menu = await db.select().from(models.menu);
+  const categories = await db.select().from(models.categories);
 
   return (
     <main className="container p-4">
@@ -58,9 +27,9 @@ export default function MenuPage() {
       <div className="flex flex-col gap-16">
         {categories.map((category) => (
           <MenuCategory
-            key={category}
-            title={category}
-            menu={menu.filter((i) => i.category === category)}
+            key={category.id}
+            title={category.name || ""}
+            menu={menu.filter((i) => i.categoryId === category.id)}
           />
         ))}
       </div>
