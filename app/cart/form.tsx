@@ -27,7 +27,7 @@ function SuggestionButton(props: {
       className={`rounded-full px-3 py-1.5 text-xs ${
         props.isActive
           ? "bg-neutral-300 text-neutral-800"
-          : "bg-neutral-200/70 text-neutral-500/70"
+          : "bg-neutral-100 text-neutral-500"
       }`}
     >
       {props.children}
@@ -88,32 +88,34 @@ function OrderForm(props: {
           </div>
           <div className="mt-4">
             <div className="font-semibold">Alamat</div>
-            <div className="mt-1">
+            <div className="relative mt-1">
               <Textarea
-                className="h-24 resize-none"
+                className="h-28 resize-none pb-10"
                 value={address}
                 onChange={(e) => {
                   setAddress(e.target.value);
                 }}
               />
+              <div className="absolute bottom-0 left-0 right-0 mt-2 flex gap-1 p-2">
+                {suggestions.map((suggestion) => {
+                  return (
+                    <SuggestionButton
+                      isActive={
+                        address.toLowerCase() === suggestion.toLowerCase()
+                      }
+                      key={suggestion}
+                      onClick={() => {
+                        setAddress(suggestion);
+                      }}
+                    >
+                      {suggestion}
+                    </SuggestionButton>
+                  );
+                })}
+              </div>
             </div>
           </div>
-          <div className="mt-2 flex gap-2">
-            {suggestions.map((suggestion) => {
-              return (
-                <SuggestionButton
-                  isActive={address.toLowerCase() === suggestion.toLowerCase()}
-                  key={suggestion}
-                  onClick={() => {
-                    setAddress(suggestion);
-                  }}
-                >
-                  {suggestion}
-                </SuggestionButton>
-              );
-            })}
-          </div>
-          <div className="mt-6">
+          <div className="mt-4">
             <div className="flex items-center space-x-2">
               <Checkbox
                 id="save-contact"
@@ -130,7 +132,7 @@ function OrderForm(props: {
             <div className="font-semibold">Total</div>
             <div className="text-lg font-semibold">{formatCurrency(total)}</div>
           </div>
-          <div className="mt-2 flex flex-col-reverse gap-2">
+          <div className="mt-1 flex flex-col-reverse gap-2">
             <ConfirmationModal
               disabled={!name || !address}
               onContinue={submitOrder}
