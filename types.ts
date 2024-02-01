@@ -20,6 +20,13 @@ export const cartItemSchema = z.object({
 
 export type CartItem = z.infer<typeof cartItemSchema>;
 
+export const contactSchema = z.object({
+  name: z.string(),
+  address: z.string(),
+});
+
+export type Contact = z.infer<typeof contactSchema>;
+
 export const orderPayloadSchema = z.object({
   name: z.string(),
   address: z.string(),

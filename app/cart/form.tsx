@@ -3,7 +3,9 @@
 import { useAtom } from "jotai";
 import { RESET } from "jotai/utils";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { cartAtom } from "@/atoms/cart";
+import { contactAtom } from "@/atoms/contact";
 import { formatCurrency, sendWhatsapp } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,7 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { ConfirmationModal } from "./confirmation";
 import { ThankYouModal } from "./thank-you";
-import type { CartItem, OrderPayload } from "@/types";
+import type { CartItem, OrderPayload, Contact } from "@/types";
 
 function SuggestionButton(props: {
   isActive: boolean;
@@ -35,10 +37,12 @@ function SuggestionButton(props: {
 
 function OrderForm(props: {
   items: CartItem[];
-  onSubmit: (order: OrderPayload) => void;
+  savedContact: Contact;
+  onSubmit: (order: OrderPayload, savedContact?: Contact) => void;
 }) {
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
+  const [name, setName] = useState(props.savedContact.name);
+  const [address, setAddress] = useState(props.savedContact.address);
+  const [isSaveContact, setIsSaveContact] = useState(false);
 
   const suggestions = ["Makan di tempat", "Ambil di tempat"];
 
@@ -47,11 +51,23 @@ function OrderForm(props: {
   }, 0);
 
   function submitOrder() {
-    props.onSubmit({
-      name,
-      address,
-      items: props.items,
-    });
+    props.onSubmit(
+      {
+        name,
+        address,
+        items: props.items,
+      },
+      isSaveContact
+        ? {
+            name,
+            address: suggestions
+              .map((s) => s.toLowerCase())
+              .includes(address.trim().toLowerCase())
+              ? ""
+              : address,
+          }
+        : undefined,
+    );
   }
 
   return (
@@ -97,7 +113,20 @@ function OrderForm(props: {
               );
             })}
           </div>
-          <div className="mt-8 flex items-center justify-between">
+          <div className="mt-6">
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="save-contact"
+                checked={isSaveContact}
+                onCheckedChange={(val: boolean) => {
+                  setIsSaveContact(val);
+                }}
+                className="border-stone-300 data-[state=checked]:border-amber-500"
+              />
+              <label htmlFor="save-contact">Simpan kontak</label>
+            </div>
+          </div>
+          <div className="mt-4 flex items-center justify-between">
             <div className="font-semibold">Total</div>
             <div className="text-lg font-semibold">{formatCurrency(total)}</div>
           </div>
@@ -171,12 +200,20 @@ function EmptyCart() {
 export function CartForm(props: { onSubmit(payload: OrderPayload): void }) {
   const [completed, setCompleted] = useState(false);
   const [cart, setCart] = useAtom(cartAtom);
+  const [contact, setContact] = useAtom(contactAtom);
 
-  function onSubmit(payload: OrderPayload) {
+  function onSubmit(payload: OrderPayload, savedContact?: Contact) {
     setCompleted(true);
     sendWhatsapp(payload);
     props.onSubmit(payload);
     setCart(RESET);
+
+    if (savedContact) {
+      setContact({
+        ...contact,
+        data: savedContact,
+      });
+    }
   }
 
   const items = cart.items ? Object.values(cart.items) : [];
@@ -185,7 +222,11 @@ export function CartForm(props: { onSubmit(payload: OrderPayload): void }) {
     <>
       <ThankYouModal open={completed} />
       {items.length ? (
-        <OrderForm items={items} onSubmit={onSubmit} />
+        <OrderForm
+          items={items}
+          savedContact={contact.data}
+          onSubmit={onSubmit}
+        />
       ) : (
         <EmptyCart />
       )}
