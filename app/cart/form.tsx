@@ -9,11 +9,29 @@ import Image from "next/image";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
 import { useState } from "react";
 import { ConfirmationModal } from "./confirmation";
 import { ThankYouModal } from "./thank-you";
 import type { CartItem, OrderPayload } from "@/types";
+
+function SuggestionButton(props: {
+  isActive: boolean;
+  children: React.ReactNode;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      onClick={props.onClick}
+      className={`rounded-full px-3 py-1.5 text-xs ${
+        props.isActive
+          ? "bg-neutral-300 text-neutral-800"
+          : "bg-neutral-200/70 text-neutral-500/70"
+      }`}
+    >
+      {props.children}
+    </button>
+  );
+}
 
 function OrderForm(props: {
   items: CartItem[];
@@ -21,7 +39,8 @@ function OrderForm(props: {
 }) {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
-  const [dineIn, setDineIn] = useState(false);
+
+  const suggestions = ["Makan di tempat", "Ambil di tempat"];
 
   const total = props.items.reduce((acc, i) => {
     return acc + i.menu.price * i.qty;
@@ -52,36 +71,33 @@ function OrderForm(props: {
             </div>
           </div>
           <div className="mt-4">
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="dine-in"
-                checked={dineIn}
-                onCheckedChange={() => {
-                  const val = !dineIn;
-                  setDineIn(val);
-                  setAddress(val ? "Makan di tempat" : "");
-                }}
-                className="border-stone-300 data-[state=checked]:border-amber-500"
-              />
-              <label htmlFor="dine-in">Makan di tempat</label>
-            </div>
-          </div>
-          <div className="mt-4">
-            <div className={`font-semibold ${dineIn ? "opacity-30" : ""}`}>
-              Alamat
-            </div>
+            <div className="font-semibold">Alamat</div>
             <div className="mt-1">
               <Textarea
-                className={`h-20 ${dineIn ? "italic text-stone-400" : ""}`}
+                className="h-24 resize-none"
                 value={address}
                 onChange={(e) => {
                   setAddress(e.target.value);
                 }}
-                disabled={dineIn}
               />
             </div>
           </div>
-          <div className="mt-3 flex justify-between">
+          <div className="mt-2 flex gap-2">
+            {suggestions.map((suggestion) => {
+              return (
+                <SuggestionButton
+                  isActive={address.toLowerCase() === suggestion.toLowerCase()}
+                  key={suggestion}
+                  onClick={() => {
+                    setAddress(suggestion);
+                  }}
+                >
+                  {suggestion}
+                </SuggestionButton>
+              );
+            })}
+          </div>
+          <div className="mt-8 flex items-center justify-between">
             <div className="font-semibold">Total</div>
             <div className="text-lg font-semibold">{formatCurrency(total)}</div>
           </div>
