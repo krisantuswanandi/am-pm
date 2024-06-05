@@ -32,7 +32,7 @@ export default async function MenuPage() {
           />
         ))}
       </div>
-      <div className="mt-4 flex justify-center gap-4 py-4 text-stone-400">
+      <div className="mt-4 flex justify-center gap-4 py-4 text-stone-400 max-[390px]:flex-col max-[390px]:items-center max-[390px]:gap-0">
         <a
           href={`https://instagram.com/${instagram}`}
           target="_blank"
