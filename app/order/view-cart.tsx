@@ -19,6 +19,8 @@ export function ViewCart() {
     totalPrice += item.qty * item.menu.price;
   });
 
+  if (!totalItem) return null;
+
   return (
     <div className="fixed bottom-0 left-0 right-0 flex items-center justify-end border border-t-stone-200 bg-white p-4">
       <div className="mr-4">
