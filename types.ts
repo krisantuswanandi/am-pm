@@ -7,6 +7,7 @@ export const menuItemSchema = z.object({
   price: z.number(),
   image: z.string().nullable(),
   categoryId: z.number(),
+  order: z.number(),
 });
 
 export type MenuItem = z.infer<typeof menuItemSchema>;

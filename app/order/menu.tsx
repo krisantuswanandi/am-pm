@@ -15,9 +15,11 @@ export function MenuCategory(props: { title: string; menu: MenuItem[] }) {
 export function MenuList(props: { menu: MenuItem[] }) {
   return (
     <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-      {props.menu.map((item) => (
-        <MenuItem key={item.id} item={item} />
-      ))}
+      {props.menu
+        .sort((a, b) => a.order - b.order)
+        .map((item) => (
+          <MenuItem key={item.id} item={item} />
+        ))}
     </ul>
   );
 }
