@@ -26,3 +26,7 @@ export function login(passcode = "") {
   });
   return "";
 }
+
+export function logout() {
+  cookies().delete(SESSION_KEY);
+}
