@@ -10,11 +10,11 @@ export function isLoggedIn() {
 
 export function login(passcode = "") {
   if (!passcode) {
-    console.log("no password");
+    return "No password provided";
   }
 
   if (passcode !== process.env.ADMIN_PASSCODE) {
-    console.log("wrong password");
+    return "Wrong password";
   }
 
   cookies().set({
@@ -24,4 +24,5 @@ export function login(passcode = "") {
     httpOnly: true,
     secure: true,
   });
+  return "";
 }
