@@ -37,3 +37,7 @@ export async function addMenu(menu: models.NewMenu) {
   revalidateTag("menu");
 }
 
+export async function addCategory(category: models.NewCategory) {
+  await db.insert(models.categories).values(category);
+  revalidateTag("categories");
+}
