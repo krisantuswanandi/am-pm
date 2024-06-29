@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getCategories } from "@/database";
+import { onDelete } from "./new/action";
 
 export default async function AdminCategoriesPage() {
   const rows = await getCategories();
@@ -28,9 +29,12 @@ export default async function AdminCategoriesPage() {
                 <button className="text-blue-500 underline underline-offset-4">
                   ubah
                 </button>
-                <button className="ml-2 text-blue-500 underline underline-offset-4">
-                  hapus
-                </button>
+                <form className="inline" action={onDelete}>
+                  <input type="hidden" name="id" value={row.id} />
+                  <button className="ml-2 text-blue-500 underline underline-offset-4">
+                    hapus
+                  </button>
+                </form>
               </td>
             </tr>
           ))}

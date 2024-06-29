@@ -2,6 +2,7 @@ import { revalidateTag, unstable_cache } from "next/cache";
 import { drizzle } from "drizzle-orm/libsql";
 import { createClient } from "@libsql/client";
 import * as models from "./schema";
+import { eq } from "drizzle-orm";
 
 const sqlite = createClient({
   url: process.env.DATABASE_URL!,
@@ -39,5 +40,10 @@ export async function addMenu(menu: models.NewMenu) {
 
 export async function addCategory(category: models.NewCategory) {
   await db.insert(models.categories).values(category);
+  revalidateTag("categories");
+}
+
+export async function removeCategory(id: number) {
+  await db.delete(models.categories).where(eq(models.categories.id, id));
   revalidateTag("categories");
 }

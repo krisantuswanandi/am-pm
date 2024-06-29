@@ -1,6 +1,6 @@
 "use server";
 
-import { addCategory } from "@/database";
+import { addCategory, removeCategory } from "@/database";
 import { redirect } from "next/navigation";
 
 export async function onSubmit(_prevState: any, formData: FormData) {
@@ -11,5 +11,16 @@ export async function onSubmit(_prevState: any, formData: FormData) {
   }
 
   await addCategory({ name, order: 1 });
+  redirect("/admin/categories");
+}
+
+export async function onDelete(formData: FormData) {
+  const id = formData.get("id");
+
+  if (!id || typeof id !== "string") {
+    return { error: "Invalid category id" };
+  }
+
+  await removeCategory(parseInt(id));
   redirect("/admin/categories");
 }
