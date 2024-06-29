@@ -41,10 +41,10 @@ export type Order = InferSelectModel<typeof orders>;
 export type NewOrder = InferInsertModel<typeof orders>;
 
 export type OrderLine = InferSelectModel<typeof orderLines>;
-export type NewOrderLine = InferSelectModel<typeof orderLines>;
+export type NewOrderLine = InferInsertModel<typeof orderLines>;
 
-export type MenuLine = InferSelectModel<typeof menu>;
-export type NewMenuLine = InferSelectModel<typeof menu>;
+export type Menu = InferSelectModel<typeof menu>;
+export type NewMenu = InferInsertModel<typeof menu>;
 
-export type CategoryLine = InferSelectModel<typeof categories>;
-export type NewCategoryLine = InferSelectModel<typeof categories>;
+export type Category = InferSelectModel<typeof categories>;
+export type NewCategory = InferInsertModel<typeof categories>;
