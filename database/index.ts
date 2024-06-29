@@ -43,6 +43,11 @@ export async function addCategory(category: models.NewCategory) {
   revalidateTag("categories");
 }
 
+export async function removeMenu(id: number) {
+  await db.delete(models.menu).where(eq(models.menu.id, id));
+  revalidateTag("menu");
+}
+
 export async function removeCategory(id: number) {
   await db.delete(models.categories).where(eq(models.categories.id, id));
   revalidateTag("categories");

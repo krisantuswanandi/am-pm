@@ -1,6 +1,6 @@
 "use server";
 
-import { addMenu } from "@/database";
+import { addMenu, removeMenu } from "@/database";
 import { redirect } from "next/navigation";
 
 export async function onSubmit(_prevState: any, formData: FormData) {
@@ -34,5 +34,16 @@ export async function onSubmit(_prevState: any, formData: FormData) {
     price: parseInt(data.price),
     order: 1,
   });
+  redirect("/admin/menu");
+}
+
+export async function onDelete(formData: FormData) {
+  const id = formData.get("id");
+
+  if (!id || typeof id !== "string") {
+    return { error: "Invalid category id" };
+  }
+
+  await removeMenu(parseInt(id));
   redirect("/admin/menu");
 }

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getCategories, getMenu } from "@/database";
+import { onDelete } from "./new/action";
 
 export default async function AdminMenuPage() {
   const [menu, categoriesArr] = await Promise.all([getMenu(), getCategories()]);
@@ -51,9 +52,12 @@ export default async function AdminMenuPage() {
                 <button className="text-blue-500 underline underline-offset-4">
                   ubah
                 </button>
-                <button className="ml-2 text-blue-500 underline underline-offset-4">
-                  hapus
-                </button>
+                <form className="inline" action={onDelete}>
+                  <input type="hidden" name="id" value={item.id} />
+                  <button className="ml-2 text-blue-500 underline underline-offset-4">
+                    hapus
+                  </button>
+                </form>
               </td>
             </tr>
           ))}
