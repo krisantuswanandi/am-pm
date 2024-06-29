@@ -1,4 +1,4 @@
-import { unstable_cache } from "next/cache";
+import { revalidateTag, unstable_cache } from "next/cache";
 import { drizzle } from "drizzle-orm/libsql";
 import { createClient } from "@libsql/client";
 import * as models from "./schema";
@@ -31,3 +31,9 @@ export const getCategories = unstable_cache(
     tags: ["categories"],
   },
 );
+
+export async function addMenu(menu: models.NewMenu) {
+  await db.insert(models.menu).values(menu);
+  revalidateTag("menu");
+}
+
