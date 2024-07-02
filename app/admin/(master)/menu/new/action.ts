@@ -1,6 +1,6 @@
 "use server";
 
-import { addMenu, removeMenu } from "@/database";
+import { addMenu, getMenuOrder, removeMenu } from "@/database";
 import { isLoggedIn } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
@@ -32,13 +32,19 @@ export async function onSubmit(_prevState: any, formData: FormData) {
     return { error: "Invalid category" };
   }
 
-  await addMenu({
+  const newMenu = {
     name: data.name,
     description: data.desc,
     categoryId: parseInt(data.category),
     price: parseInt(data.price),
-    order: 1,
-  });
+    order: 0,
+  };
+
+  const lastOrder = await getMenuOrder(newMenu.categoryId);
+  const order = lastOrder + 1;
+  newMenu.order = order;
+
+  await addMenu(newMenu);
   redirect("/admin/menu");
 }
 

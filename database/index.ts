@@ -53,6 +53,17 @@ export async function removeCategory(id: number) {
   revalidateTag("categories");
 }
 
+export async function getMenuOrder(category: number) {
+  const result = await db
+    .select({ order: models.menu.order })
+    .from(models.menu)
+    .where(eq(models.menu.categoryId, category))
+    .orderBy(desc(models.menu.order))
+    .limit(1);
+  if (!result || !result.length) return 0;
+  return result[0].order;
+}
+
 export async function getLastCategoryOrder() {
   const result = await db
     .select({ order: models.categories.order })
