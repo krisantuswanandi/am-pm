@@ -1,9 +1,8 @@
+import { getCategories } from "@/database";
 import { MenuForm } from "./form";
 
 export default async function NewMenuPage() {
-  async function submit(formData: FormData) {
-    console.log(formData.get("tes"));
-  }
+  const categories = await getCategories();
 
-  return <MenuForm />;
+  return <MenuForm categories={categories} />;
 }

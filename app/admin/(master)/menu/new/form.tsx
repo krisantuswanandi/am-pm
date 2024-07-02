@@ -3,6 +3,7 @@
 import { ReactNode } from "react";
 import { useFormState } from "react-dom";
 import { onSubmit } from "./action";
+import { Category } from "@/database/schema";
 
 export function Field({
   label,
@@ -19,7 +20,7 @@ export function Field({
   );
 }
 
-export function MenuForm() {
+export function MenuForm({ categories }: { categories: Category[] }) {
   const [state, formAction] = useFormState(onSubmit, { error: "" });
 
   return (
@@ -35,9 +36,11 @@ export function MenuForm() {
       </Field>
       <Field label="Category:">
         <select name="category" className="border border-stone-300">
-          <option value="1">Makanan</option>
-          <option value="2">Minuman</option>
-          <option value="3">Tambahan</option>
+          {categories.map((category) => (
+            <option value={category.id} key={category.id}>
+              {category.name}
+            </option>
+          ))}
         </select>
       </Field>
       <div className="mt-2 text-xs text-red-500">{state?.error}</div>
