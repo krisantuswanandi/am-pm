@@ -24,13 +24,19 @@ export default async function MenuPage() {
         <h1 className="text-2xl text-[#EDA94C]">am.pm</h1>
       </Link>
       <div className="flex flex-col gap-16">
-        {categories.map((category) => (
-          <MenuCategory
-            key={category.id}
-            title={category.name || ""}
-            menu={menu.filter((i) => i.categoryId === category.id)}
-          />
-        ))}
+        {categories.map((category) => {
+          const filteredMenu = menu.filter((i) => i.categoryId === category.id);
+
+          if (!filteredMenu.length) return null;
+
+          return (
+            <MenuCategory
+              key={category.id}
+              title={category.name || ""}
+              menu={filteredMenu}
+            />
+          );
+        })}
       </div>
       <div className="mt-4 flex justify-center gap-4 py-4 text-stone-400 max-[390px]:flex-col max-[390px]:items-center max-[390px]:gap-0">
         <a
