@@ -1,6 +1,6 @@
 "use server";
 
-import { addCategory, removeCategory } from "@/database";
+import { addCategory, getLastCategoryOrder, removeCategory } from "@/database";
 import { isLoggedIn } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
@@ -14,8 +14,10 @@ export async function onSubmit(_prevState: any, formData: FormData) {
   if (!name || typeof name !== "string") {
     return { error: "Invalid category name" };
   }
+  const lastOrder = await getLastCategoryOrder();
+  const order = lastOrder + 1;
 
-  await addCategory({ name, order: 1 });
+  await addCategory({ name, order });
   redirect("/admin/categories");
 }
 

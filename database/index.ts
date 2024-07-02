@@ -2,7 +2,7 @@ import { revalidateTag, unstable_cache } from "next/cache";
 import { drizzle } from "drizzle-orm/libsql";
 import { createClient } from "@libsql/client";
 import * as models from "./schema";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 
 const sqlite = createClient({
   url: process.env.DATABASE_URL!,
@@ -51,4 +51,14 @@ export async function removeMenu(id: number) {
 export async function removeCategory(id: number) {
   await db.delete(models.categories).where(eq(models.categories.id, id));
   revalidateTag("categories");
+}
+
+export async function getLastCategoryOrder() {
+  const result = await db
+    .select({ order: models.categories.order })
+    .from(models.categories)
+    .orderBy(desc(models.categories.order))
+    .limit(1);
+  if (!result || !result.length) return 0;
+  return result[0].order;
 }
