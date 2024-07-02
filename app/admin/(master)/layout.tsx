@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { isLoggedIn, logout } from "../auth";
+import { isLoggedIn } from "@/lib/auth";
+import { onLogout } from "../action";
 
 export default function AdminLayout({
   children,
@@ -9,11 +10,6 @@ export default function AdminLayout({
 }) {
   if (!isLoggedIn()) {
     redirect("/admin");
-  }
-
-  async function onLogout() {
-    "use server";
-    logout();
   }
 
   return (

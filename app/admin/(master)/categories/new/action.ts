@@ -1,9 +1,14 @@
 "use server";
 
 import { addCategory, removeCategory } from "@/database";
+import { isLoggedIn } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
 export async function onSubmit(_prevState: any, formData: FormData) {
+  if (!isLoggedIn()) {
+    return { error: "Unauthorized" };
+  }
+
   const name = formData.get("name");
 
   if (!name || typeof name !== "string") {
@@ -15,6 +20,10 @@ export async function onSubmit(_prevState: any, formData: FormData) {
 }
 
 export async function onDelete(formData: FormData) {
+  if (!isLoggedIn()) {
+    return { error: "Unauthorized" };
+  }
+
   const id = formData.get("id");
 
   if (!id || typeof id !== "string") {
