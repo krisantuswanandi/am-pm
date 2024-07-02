@@ -1,6 +1,12 @@
 "use server";
 
-import { addCategory, getLastCategoryOrder, removeCategory } from "@/database";
+import {
+  addCategory,
+  getCategories,
+  getLastCategoryOrder,
+  getMenu,
+  removeCategory,
+} from "@/database";
 import { isLoggedIn } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
@@ -32,6 +38,24 @@ export async function onDelete(formData: FormData) {
     return { error: "Invalid category id" };
   }
 
-  await removeCategory(parseInt(id));
-  redirect("/admin/categories");
+  const categoryId = parseInt(id);
+
+  try {
+    await removeCategory(categoryId);
+    redirect("/admin/categories");
+  } catch {
+    // get menu and categories are cached so it's okay to fetch all (probably)
+    const menu = await getMenu();
+    const categories = await getCategories();
+
+    const toRemoveMenu = menu
+      .filter((item) => item.categoryId === categoryId)
+      .map((item) => item.name);
+    const category = categories.find((category) => category.id === categoryId);
+    throw new Error(
+      `Hapus ${toRemoveMenu.length} menu (${toRemoveMenu.join(
+        ", ",
+      )}) sebelum hapus kategori "${category?.name}"!`,
+    );
+  }
 }
