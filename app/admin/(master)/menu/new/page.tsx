@@ -1,5 +1,5 @@
 import { getCategories } from "@/database";
-import { MenuForm } from "./form";
+import { MenuForm } from "../form";
 
 export default async function NewMenuPage() {
   const categories = await getCategories();

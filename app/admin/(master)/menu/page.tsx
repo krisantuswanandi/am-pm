@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getCategories, getMenu } from "@/database";
-import { onDelete } from "./new/action";
+import { onDelete } from "./action";
 
 export default async function AdminMenuPage() {
   const [menu, categoriesArr] = await Promise.all([getMenu(), getCategories()]);

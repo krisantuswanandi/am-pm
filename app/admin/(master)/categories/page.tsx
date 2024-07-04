@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getCategories } from "@/database";
-import { onDelete } from "./new/action";
+import { onDelete } from "./action";
 
 export default async function AdminCategoriesPage() {
   const rows = await getCategories();
