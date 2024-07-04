@@ -26,9 +26,12 @@ export default async function AdminCategoriesPage() {
               <td>{row.id}</td>
               <td>{row.name}</td>
               <td>
-                <button className="text-blue-500 underline underline-offset-4">
+                <Link
+                  href={`/admin/categories/${row.id}`}
+                  className="text-blue-500 underline underline-offset-4"
+                >
                   ubah
-                </button>
+                </Link>
                 <form className="inline" action={onDelete}>
                   <input type="hidden" name="id" value={row.id} />
                   <button className="ml-2 text-blue-500 underline underline-offset-4">

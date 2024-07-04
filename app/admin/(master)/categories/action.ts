@@ -6,11 +6,12 @@ import {
   getLastCategoryOrder,
   getMenu,
   removeCategory,
+  updateCategory,
 } from "@/database";
 import { isLoggedIn } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
-export async function onSubmit(_prevState: any, formData: FormData) {
+export async function onAdd(_prevState: any, formData: FormData) {
   if (!isLoggedIn()) {
     return { error: "Unauthorized" };
   }
@@ -24,6 +25,25 @@ export async function onSubmit(_prevState: any, formData: FormData) {
   const order = lastOrder + 1;
 
   await addCategory({ name, order });
+  redirect("/admin/categories");
+}
+
+export async function onEdit(_prevState: any, formData: FormData) {
+  if (!isLoggedIn()) {
+    return { error: "Unauthorized" };
+  }
+
+  const id = formData.get("id");
+  const name = formData.get("name");
+
+  if (!id || typeof id !== "string") {
+    return { error: "Invalid category id" };
+  }
+  if (!name || typeof name !== "string") {
+    return { error: "Invalid category name" };
+  }
+
+  await updateCategory({ id: parseInt(id), name });
   redirect("/admin/categories");
 }
 

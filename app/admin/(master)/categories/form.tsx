@@ -2,7 +2,12 @@
 
 import { ReactNode } from "react";
 import { useFormState } from "react-dom";
-import { onSubmit } from "./action";
+import { onAdd, onEdit } from "./action";
+import { Category } from "@/database/schema";
+
+interface Props {
+  value?: Category;
+}
 
 export function Field({
   label,
@@ -19,13 +24,19 @@ export function Field({
   );
 }
 
-export function CategoriesForm() {
+export function CategoriesForm({ value }: Props) {
+  const onSubmit = !value ? onAdd : onEdit;
   const [state, formAction] = useFormState(onSubmit, { error: "" });
 
   return (
     <form action={formAction}>
+      <input type="hidden" name="id" value={value?.id} />
       <Field label="Name:">
-        <input name="name" className="border border-stone-300" />
+        <input
+          name="name"
+          className="border border-stone-300"
+          defaultValue={value?.name}
+        />
       </Field>
       <div className="mt-2 text-xs text-red-500">{state?.error}</div>
       <button className="mt-2 bg-gray-400 px-2 py-1">Submit</button>

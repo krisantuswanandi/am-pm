@@ -33,6 +33,13 @@ export const getCategories = unstable_cache(
   },
 );
 
+export function getCategory(id: number) {
+  return db
+    .select()
+    .from(models.categories)
+    .where(eq(models.categories.id, id));
+}
+
 export async function addMenu(menu: models.NewMenu) {
   await db.insert(models.menu).values(menu);
   revalidateTag("menu");
@@ -40,6 +47,18 @@ export async function addMenu(menu: models.NewMenu) {
 
 export async function addCategory(category: models.NewCategory) {
   await db.insert(models.categories).values(category);
+  revalidateTag("categories");
+}
+
+export async function updateCategory(category: Partial<models.NewCategory>) {
+  const { id, ...data } = category;
+
+  if (!id) throw new Error("Empty ID");
+
+  await db
+    .update(models.categories)
+    .set(data)
+    .where(eq(models.categories.id, id));
   revalidateTag("categories");
 }
 
