@@ -49,9 +49,12 @@ export default async function AdminMenuPage() {
               <td>{categories.get(item.categoryId)}</td>
               <td>{item.description}</td>
               <td>
-                <button className="text-blue-500 underline underline-offset-4">
+                <Link
+                  href={`/admin/menu/${item.id}`}
+                  className="text-blue-500 underline underline-offset-4"
+                >
                   ubah
-                </button>
+                </Link>
                 <form className="inline" action={onDelete}>
                   <input type="hidden" name="id" value={item.id} />
                   <button className="ml-2 text-blue-500 underline underline-offset-4">

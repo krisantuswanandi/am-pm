@@ -23,6 +23,10 @@ export const getMenu = unstable_cache(
   },
 );
 
+export function getMenuItem(id: number) {
+  return db.select().from(models.menu).where(eq(models.menu.id, id));
+}
+
 export const getCategories = unstable_cache(
   async () => {
     return db.select().from(models.categories);
@@ -48,6 +52,15 @@ export async function addMenu(menu: models.NewMenu) {
 export async function addCategory(category: models.NewCategory) {
   await db.insert(models.categories).values(category);
   revalidateTag("categories");
+}
+
+export async function updateMenu(menu: Partial<models.NewMenu>) {
+  const { id, ...data } = menu;
+
+  if (!id) throw new Error("Empty ID");
+
+  await db.update(models.menu).set(data).where(eq(models.menu.id, id));
+  revalidateTag("menu");
 }
 
 export async function updateCategory(category: Partial<models.NewCategory>) {

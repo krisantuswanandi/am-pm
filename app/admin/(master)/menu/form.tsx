@@ -2,8 +2,13 @@
 
 import { ReactNode } from "react";
 import { useFormState } from "react-dom";
-import { onSubmit } from "./action";
-import { Category } from "@/database/schema";
+import { onAdd, onEdit } from "./action";
+import { Category, Menu } from "@/database/schema";
+
+interface Props {
+  value?: Menu;
+  categories: Category[];
+}
 
 export function Field({
   label,
@@ -20,22 +25,42 @@ export function Field({
   );
 }
 
-export function MenuForm({ categories }: { categories: Category[] }) {
+export function MenuForm({ value, categories }: Props) {
+  const onSubmit = !value ? onAdd : onEdit;
   const [state, formAction] = useFormState(onSubmit, { error: "" });
 
   return (
     <form action={formAction}>
+      <input type="hidden" name="id" value={value?.id} />
+      <input type="hidden" name="prev-category" value={value?.categoryId} />
       <Field label="Name:">
-        <input name="name" className="border border-stone-300" />
+        <input
+          name="name"
+          className="border border-stone-300"
+          defaultValue={value?.name}
+        />
       </Field>
       <Field label="Description:">
-        <input name="desc" className="border border-stone-300" />
+        <input
+          name="desc"
+          className="border border-stone-300"
+          defaultValue={value?.description || ""}
+        />
       </Field>
       <Field label="Price:">
-        <input type="number" name="price" className="border border-stone-300" />
+        <input
+          type="number"
+          name="price"
+          className="border border-stone-300"
+          defaultValue={value?.price}
+        />
       </Field>
       <Field label="Category:">
-        <select name="category" className="border border-stone-300">
+        <select
+          name="category"
+          className="border border-stone-300"
+          defaultValue={value?.categoryId}
+        >
           {categories.map((category) => (
             <option value={category.id} key={category.id}>
               {category.name}
