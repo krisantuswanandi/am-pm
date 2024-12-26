@@ -3,14 +3,14 @@ import { MenuForm } from "../form";
 import { redirect } from "next/navigation";
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function EditMenuPage({ params }: Props) {
-  if (!params.id) redirect("/admin/menu");
+  const { id } = await params
+  if (!id) redirect("/admin/menu");
 
-  const id = parseInt(params.id);
-  const menu = await getMenuItem(id).catch(() => null);
+  const menu = await getMenuItem(+id).catch(() => null);
   const categories = await getCategories();
 
   if (!menu || !menu.length) redirect("/admin/menu");

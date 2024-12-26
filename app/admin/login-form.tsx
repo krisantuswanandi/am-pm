@@ -1,10 +1,11 @@
 "use client";
 
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import { onLogin } from "./action";
 
 export function LoginForm() {
-  const [state, formAction] = useFormState(onLogin, { error: "" });
+  const [state, formAction] = useActionState(onLogin, { error: "" });
+
   return (
     <form action={formAction}>
       <div>Passcode:</div>

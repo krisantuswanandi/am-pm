@@ -48,15 +48,11 @@ export async function onEdit(_prevState: any, formData: FormData) {
 }
 
 export async function onDelete(formData: FormData) {
-  if (!isLoggedIn()) {
-    return { error: "Unauthorized" };
-  }
+  if (!(await isLoggedIn())) return;
 
   const id = formData.get("id");
 
-  if (!id || typeof id !== "string") {
-    return { error: "Invalid category id" };
-  }
+  if (!id || typeof id !== "string") return;
 
   const categoryId = parseInt(id);
 

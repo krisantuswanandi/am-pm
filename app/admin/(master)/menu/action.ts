@@ -6,7 +6,7 @@ import { isLoggedIn } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
 export async function onAdd(_prevState: any, formData: FormData) {
-  if (!isLoggedIn()) {
+  if (!(await isLoggedIn())) {
     return { error: "Unauthorized" };
   }
 
@@ -50,7 +50,7 @@ export async function onAdd(_prevState: any, formData: FormData) {
 }
 
 export async function onEdit(_prevState: any, formData: FormData) {
-  if (!isLoggedIn()) {
+  if (!(await isLoggedIn())) {
     return { error: "Unauthorized" };
   }
 
@@ -102,15 +102,11 @@ export async function onEdit(_prevState: any, formData: FormData) {
 }
 
 export async function onDelete(formData: FormData) {
-  if (!isLoggedIn()) {
-    return { error: "Unauthorized" };
-  }
+  if (!(await isLoggedIn())) return;
 
   const id = formData.get("id");
 
-  if (!id || typeof id !== "string") {
-    return { error: "Invalid category id" };
-  }
+  if (!id || typeof id !== "string") return;
 
   await removeMenu(parseInt(id));
   redirect("/admin/menu");

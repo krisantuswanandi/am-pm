@@ -3,12 +3,12 @@ import { redirect } from "next/navigation";
 import { isLoggedIn } from "@/lib/auth";
 import { onLogout } from "../action";
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  if (!isLoggedIn()) {
+  if (!await isLoggedIn()) {
     redirect("/admin");
   }
 
