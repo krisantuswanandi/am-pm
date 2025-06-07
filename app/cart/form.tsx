@@ -72,7 +72,7 @@ function OrderForm(props: {
 
   return (
     <div className="m-auto flex justify-center px-5 py-4 sm:py-12">
-      <div className="w-full rounded-md bg-white shadow sm:max-w-md">
+      <div className="w-full rounded-md bg-white shadow-sm sm:max-w-md">
         <div className="border-b border-stone-200 px-4 pb-12 pt-8 sm:px-8">
           <div className="text-xl font-semibold">Tujuan</div>
           <div className="mt-4">

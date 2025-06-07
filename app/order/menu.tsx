@@ -26,7 +26,7 @@ export function MenuList(props: { menu: MenuItem[] }) {
 
 export function MenuItem(props: { item: MenuItem }) {
   return (
-    <li className="flex items-start gap-4 rounded-md bg-white p-4 shadow">
+    <li className="flex items-start gap-4 rounded-md bg-white p-4 shadow-sm">
       {props.item.image ? (
         <Image
           src={props.item.image}

@@ -39,7 +39,7 @@ export default function Home() {
             <span className="text-sm">+{whatsapp}</span>
           </a>
         </div>
-        <div className="w-full overflow-hidden rounded-md border border-stone-300 shadow">
+        <div className="w-full overflow-hidden rounded-md border border-stone-300 shadow-sm">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d984.8682389143966!2d124.88798676957896!3d-9.111681975252184!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2cffbf2530db5a03%3A0xde8a4862220db849!2sRumah%20Makan%20Am%20Pm!5e0!3m2!1sen!2sid!4v1704084193224!5m2!1sen!2sid"
             width="400"
