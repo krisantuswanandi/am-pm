@@ -1,18 +1,23 @@
+"use client";
+
 import Image from "next/image";
 import { formatCurrency } from "@/lib/utils";
 import { AddToCart } from "./add-to-cart";
 import type { MenuItem } from "@/types";
+import type { Category, Menu } from "@/database/schema";
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
 
 export function MenuCategory(props: { title: string; menu: MenuItem[] }) {
   return (
     <div>
       <h2 className="mb-6 text-3xl font-semibold capitalize">{props.title}</h2>
-      <MenuList menu={props.menu} />
+      <CategorizedMenuList menu={props.menu} />
     </div>
   );
 }
 
-export function MenuList(props: { menu: MenuItem[] }) {
+export function CategorizedMenuList(props: { menu: MenuItem[] }) {
   return (
     <ul className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       {props.menu
@@ -49,5 +54,49 @@ export function MenuItem(props: { item: MenuItem }) {
         </div>
       </div>
     </li>
+  );
+}
+
+export function MenuList({
+  categories,
+  menu,
+}: {
+  categories: Category[];
+  menu: Menu[];
+}) {
+  const [search, setSearch] = useState("");
+
+  const filteredMenua = menu.filter((item) =>
+    item.name.toLowerCase().includes(search.toLowerCase()),
+  );
+
+  return (
+    <div>
+      <div>
+        <Input
+          placeholder="Cari menu..."
+          className="bg-white"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
+      <div className="mt-8 flex flex-col gap-16 empty:py-16 empty:text-center empty:text-stone-400/50 empty:italic empty:before:content-['Menu_tidak_ditemukan']">
+        {categories.map((category) => {
+          const categorizedMenu = filteredMenua.filter(
+            (i) => i.categoryId === category.id,
+          );
+
+          if (!categorizedMenu.length) return null;
+
+          return (
+            <MenuCategory
+              key={category.id}
+              title={category.name || ""}
+              menu={categorizedMenu}
+            />
+          );
+        })}
+      </div>
+    </div>
   );
 }

@@ -19,10 +19,9 @@ interface Props {
 export function AdminMenuList({ menu }: Props) {
   const [search, setSearch] = useState("");
 
-  const filteredMenu = menu.filter((item) => {
-    const searchLower = search.toLowerCase();
-    return item.name.toLowerCase().includes(searchLower);
-  });
+  const filteredMenu = menu.filter((item) =>
+    item.name.toLowerCase().includes(search.toLowerCase()),
+  );
 
   return (
     <div>

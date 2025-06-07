@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaInstagram, FaWhatsapp } from "react-icons/fa6";
-import { MenuCategory } from "./menu";
+import { MenuList } from "./menu";
 import { ViewCart } from "./view-cart";
 import { getCategories, getMenu } from "@/database";
 
@@ -23,21 +23,7 @@ export default async function MenuPage() {
         />
         <h1 className="text-2xl text-[#EDA94C]">am.pm</h1>
       </Link>
-      <div className="flex flex-col gap-16">
-        {categories.map((category) => {
-          const filteredMenu = menu.filter((i) => i.categoryId === category.id);
-
-          if (!filteredMenu.length) return null;
-
-          return (
-            <MenuCategory
-              key={category.id}
-              title={category.name || ""}
-              menu={filteredMenu}
-            />
-          );
-        })}
-      </div>
+      <MenuList categories={categories} menu={menu} />
       <div className="mt-4 flex justify-center gap-4 py-4 text-stone-400 max-[390px]:flex-col max-[390px]:items-center max-[390px]:gap-0">
         <a
           href={`https://instagram.com/${instagram}`}
