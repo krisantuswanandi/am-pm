@@ -9,7 +9,10 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
+  DrawerDescription,
   DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Textarea } from "@/components/ui/textarea";
@@ -51,12 +54,7 @@ export function AddToCart(props: { item: MenuItem }) {
         ...state,
         items: {
           ...state.items,
-          [props.item.id]: {
-            id: props.item.id,
-            menu: props.item,
-            qty,
-            notes,
-          },
+          [props.item.id]: { id: props.item.id, menu: props.item, qty, notes },
         },
       }));
     }
@@ -75,6 +73,10 @@ export function AddToCart(props: { item: MenuItem }) {
         </Button>
       </DrawerTrigger>
       <DrawerContent>
+        <DrawerHeader className="sr-only">
+          <DrawerTitle>{props.item.name}</DrawerTitle>
+          <DrawerDescription>{props.item.description}</DrawerDescription>
+        </DrawerHeader>
         <div className="mx-auto w-full max-w-md">
           <div className="p-4">
             <div className="flex gap-4">
@@ -103,7 +105,7 @@ export function AddToCart(props: { item: MenuItem }) {
             <div className="mt-8">
               <div className="mb-2 font-semibold">Catatan</div>
               <Textarea
-                className="h-32 resize-none placeholder:italic placeholder:text-stone-300"
+                className="h-32 resize-none placeholder:text-stone-300 placeholder:italic"
                 placeholder="Contoh: tidak pedas, tanpa acar, dll."
                 value={notes}
                 onChange={(e) => {
@@ -111,7 +113,7 @@ export function AddToCart(props: { item: MenuItem }) {
                 }}
               />
             </div>
-            <div className="flex items-center justify-center gap-4 pb-6 pt-14">
+            <div className="flex items-center justify-center gap-4 pt-14 pb-6">
               <Button
                 variant="outline"
                 size="icon"
