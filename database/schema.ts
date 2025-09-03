@@ -35,6 +35,7 @@ export const menu = sqliteTable("menu", {
   categoryId: integer("category_id")
     .references(() => categories.id)
     .notNull(),
+  status: text("status").notNull(),
 });
 
 export type Order = InferSelectModel<typeof orders>;

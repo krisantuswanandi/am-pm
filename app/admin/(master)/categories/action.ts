@@ -4,7 +4,7 @@ import {
   addCategory,
   getCategories,
   getLastCategoryOrder,
-  getMenu,
+  getAllMenu,
   removeCategory,
   updateCategory,
 } from "@/database";
@@ -61,7 +61,7 @@ export async function onDelete(formData: FormData) {
     redirect("/admin/categories");
   } catch {
     // get menu and categories are cached so it's okay to fetch all (probably)
-    const menu = await getMenu();
+    const menu = await getAllMenu();
     const categories = await getCategories();
 
     const toRemoveMenu = menu

@@ -1,0 +1,21 @@
+AGENTS guide for am.pm (Next.js App Router + Bun)
+
+- Build/dev/run: bun dev; bun run build; bun start. Lint: bun run lint (extends next/core-web-vitals). Fix: bun x eslint . --fix
+- Format: Prettier v3 + prettier-plugin-tailwindcss (class sorting). Run: bun x prettier --check . | bun x prettier --write .
+- Tests: Bun test runner. All: bun test; single file: bun test ./path/to/file.test.ts; by name: bun test --test-name-pattern "addition"; watch: bun test --watch
+- CI tests: bun test --reporter=junit --reporter-outfile=./bun.xml; bail fast: bun test --bail; per-test timeout: --timeout 5000
+- Database: Drizzle Kit scripts: bun run db:migrate; bun run db:push; bun run db:studio; bun run db:info
+- Env: copy .env.example → .env.local. Required vars: DATABASE_URL, DATABASE_AUTH_TOKEN, NEXT_PUBLIC_INSTAGRAM, NEXT_PUBLIC_PHONE_NUMBER, ADMIN_USERNAME, ADMIN_PASSWORD (per .github/copilot-instructions.md). Do not commit .env.\*
+- Imports: use path alias @/_ (tsconfig paths). Order: external → internal (@/_) → relative. Avoid circular deps; prefer named exports
+- Types: TypeScript strict. Define Zod schemas (types.ts) and derive types via z.infer. Type public APIs; infer local values
+- Naming: Components PascalCase; hooks useX; variables/functions camelCase; types/interfaces PascalCase. App Router files: page.tsx, layout.tsx, route.ts, action.ts
+- Components: Server Components by default; add "use client" only when interactivity is needed. Prefer server actions for mutations
+- Error handling: Validate with zod; guard admin actions with lib/auth.isLoggedIn(); return { error: "..." } (Indonesian); use app error.tsx boundaries
+- Data/caching: Use unstable_cache for reads with tags; revalidateTag after mutations; wrap multi-table DB ops in transactions (see .github/copilot-instructions.md)
+- Styling: Tailwind CSS utilities; shadcn/ui in components/ui; brand color #EDA94C; stone/neutral palette. Use formatCurrency from lib/utils for IDR
+- State: Jotai atoms in /atoms for cart/contact; persist across navigation; keep server state via Next caching/server components
+- Images: public/images/menu; use next/image with explicit width/height; fallback placeholder for missing images
+- Language: All user-facing text in Indonesian (Bahasa Indonesia), including admin labels and messages
+- Package scripts with Bun: bun run <script>. Use bun run --bun <cli> to force Bun runtime when needed
+- Single-test tips: path must start with ./ or /; test name filter: -t/--test-name-pattern; rerun to catch flakes: --rerun-each N
+- Commit hygiene: run lint and prettier before commits; keep types passing (tsconfig strict)

@@ -1,10 +1,13 @@
 import Link from "next/link";
-import { getCategories, getMenu } from "@/database";
+import { getCategories, getAllMenu } from "@/database";
 import { Button } from "@/components/ui/button";
 import { AdminMenuList } from "./list";
 
 export default async function AdminMenuPage() {
-  const [menu, categoriesArr] = await Promise.all([getMenu(), getCategories()]);
+  const [menu, categoriesArr] = await Promise.all([
+    getAllMenu(),
+    getCategories(),
+  ]);
   const categories = new Map(
     categoriesArr.map((category) => [category.id, category]),
   );

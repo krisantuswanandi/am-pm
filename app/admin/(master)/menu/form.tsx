@@ -115,6 +115,22 @@ export function MenuForm({ value, categories }: Props) {
           </Select>
         </Field>
 
+        <Field label="Status" htmlFor="status">
+          <Select
+            name="status"
+            defaultValue={value?.status || "active"}
+            required
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Pilih status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="active">Aktif</SelectItem>
+              <SelectItem value="inactive">Nonaktif</SelectItem>
+            </SelectContent>
+          </Select>
+        </Field>
+
         {state?.error && (
           <div className="rounded-md bg-red-50 p-3 text-sm text-red-700">
             {state.error}

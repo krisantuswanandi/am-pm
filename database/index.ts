@@ -15,9 +15,22 @@ export const db = drizzle(sqlite);
 
 export const getMenu = unstable_cache(
   async () => {
-    return db.select().from(models.menu);
+    return db
+      .select()
+      .from(models.menu)
+      .where(eq(models.menu.status, "active"));
   },
   ["menu"],
+  {
+    tags: ["menu"],
+  },
+);
+
+export const getAllMenu = unstable_cache(
+  async () => {
+    return db.select().from(models.menu);
+  },
+  ["menu-all"],
   {
     tags: ["menu"],
   },

@@ -70,6 +70,11 @@ export function AdminMenuList({ menu }: Props) {
                   <span className="rounded bg-stone-100 px-2 py-1 text-xs text-stone-600">
                     {item.category.name}
                   </span>
+                  <span
+                    className={`rounded px-2 py-1 text-xs ${item.status === "active" ? "bg-green-100 text-green-700" : "bg-stone-200 text-stone-500"}`}
+                  >
+                    {item.status === "active" ? "Aktif" : "Nonaktif"}
+                  </span>
                 </div>
 
                 {item.description && (

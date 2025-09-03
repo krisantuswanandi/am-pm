@@ -15,6 +15,7 @@ export async function onAdd(_prevState: any, formData: FormData) {
     desc: formData.get("desc"),
     price: formData.get("price"),
     category: formData.get("category"),
+    status: formData.get("status"),
   };
 
   if (!data.name || typeof data.name !== "string") {
@@ -32,6 +33,9 @@ export async function onAdd(_prevState: any, formData: FormData) {
   if (!data.category || typeof data.category !== "string") {
     return { error: "Invalid category" };
   }
+  if (!data.status || typeof data.status !== "string") {
+    return { error: "Invalid status" };
+  }
 
   const newMenu = {
     name: data.name,
@@ -39,6 +43,7 @@ export async function onAdd(_prevState: any, formData: FormData) {
     categoryId: parseInt(data.category),
     price: parseInt(data.price),
     order: 0,
+    status: data.status,
   };
 
   const lastOrder = await getMenuOrder(newMenu.categoryId);
@@ -61,6 +66,7 @@ export async function onEdit(_prevState: any, formData: FormData) {
     price: formData.get("price"),
     category: formData.get("category"),
     prevCategory: formData.get("prev-category"),
+    status: formData.get("status"),
   };
 
   if (!data.id || typeof data.id !== "string") {
@@ -82,6 +88,9 @@ export async function onEdit(_prevState: any, formData: FormData) {
   if (!data.category || typeof data.category !== "string") {
     return { error: "Invalid category" };
   }
+  if (!data.status || typeof data.status !== "string") {
+    return { error: "Invalid status" };
+  }
 
   const newMenu: Partial<Menu> = {
     id: parseInt(data.id),
@@ -89,6 +98,7 @@ export async function onEdit(_prevState: any, formData: FormData) {
     description: data.desc,
     categoryId: parseInt(data.category),
     price: parseInt(data.price),
+    status: data.status,
   };
 
   if (data.category !== data.prevCategory) {
