@@ -131,6 +131,16 @@ export function MenuForm({ value, categories }: Props) {
           </Select>
         </Field>
 
+        <Field label="Gambar Menu" htmlFor="image">
+          <Input
+            id="image"
+            name="image"
+            type="file"
+            accept="image/jpeg,image/png,image/jpg,image/webp"
+            className="mt-2"
+          />
+        </Field>
+
         {state?.error && (
           <div className="rounded-md bg-red-50 p-3 text-sm text-red-700">
             {state.error}
