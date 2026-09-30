@@ -59,12 +59,12 @@ export function getCategory(id: number) {
 
 export async function addMenu(menu: models.NewMenu) {
   await db.insert(models.menu).values(menu);
-  revalidateTag("menu");
+  revalidateTag("menu", { expire: 0 });
 }
 
 export async function addCategory(category: models.NewCategory) {
   await db.insert(models.categories).values(category);
-  revalidateTag("categories");
+  revalidateTag("categories", { expire: 0 });
 }
 
 export async function updateMenu(menu: Partial<models.NewMenu>) {
@@ -73,7 +73,7 @@ export async function updateMenu(menu: Partial<models.NewMenu>) {
   if (!id) throw new Error("Empty ID");
 
   await db.update(models.menu).set(data).where(eq(models.menu.id, id));
-  revalidateTag("menu");
+  revalidateTag("menu", { expire: 0 });
 }
 
 export async function updateCategory(category: Partial<models.NewCategory>) {
@@ -85,17 +85,17 @@ export async function updateCategory(category: Partial<models.NewCategory>) {
     .update(models.categories)
     .set(data)
     .where(eq(models.categories.id, id));
-  revalidateTag("categories");
+  revalidateTag("categories", { expire: 0 });
 }
 
 export async function removeMenu(id: number) {
   await db.delete(models.menu).where(eq(models.menu.id, id));
-  revalidateTag("menu");
+  revalidateTag("menu", { expire: 0 });
 }
 
 export async function removeCategory(id: number) {
   await db.delete(models.categories).where(eq(models.categories.id, id));
-  revalidateTag("categories");
+  revalidateTag("categories", { expire: 0 });
 }
 
 export async function getMenuOrder(category: number) {
